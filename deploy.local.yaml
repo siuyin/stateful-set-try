@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stan
+  labels:
+    app: nats-streaming-client
+    sys: test
+spec:
+  #clusterIP: None
+  #type: ClusterIP   # this is the default
+  ports:
+  - port: 8080
+  selector:
+    app: nats-streaming-client
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nsclient
+  labels:
+    sys: test
+
+spec:
+  selector:
+    matchLabels:
+      app: nats-streaming-client # has to match .spec.template.metadata.labels
+      sys: test
+  #serviceName: stan  # not needed in regular deployments?
+  replicas: 1 # by default is 1
+  template:
+    metadata:
+      labels:
+        app: nats-streaming-client # has to match .spec.selector.matchLabels
+        sys: test
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: nsclient
+        image: siuyin/nsclient:v6
+  #        volumeMounts:
+  #        - name: data
+  #          mountPath: /data
+  #  volumeClaimTemplates:
+  #  - metadata:
+  #      name: data
+  #    spec:
+  #      accessModes: [ "ReadWriteOnce" ]
+  #      storageClassName: "nats-streaming-client-storage-class"
+  #      resources:
+  #        requests:
+  #          storage: 1Gi

@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: testing-nats-streaming-client-data-a-name
+  labels:
+    sys: test
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "nats-streaming-client-storage-class"
+  hostPath:
+    path: /data/testing-nats-streaming-client-data-a-name
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: testing-nats-streaming-client-data-b-name
+  labels:
+    sys: test
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "nats-streaming-client-storage-class"
+  hostPath:
+    path: /data/testing-nats-streaming-client-data-b-name
